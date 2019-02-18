@@ -203,7 +203,7 @@ namespace PriceWatcher.Core
 
             services.AddHangfire(x => x.UseStorage(new MemoryStorage()
             {
-                
+                JobExpirationTimeout = TimeSpan.FromMinutes(2)
             }));
             
         }
