@@ -65,8 +65,7 @@ namespace PriceWatcher
             BackgroundJob.Enqueue(() => Console.WriteLine($"{sTitle} is now started !"));
 
             //Start Recurring Job
-            BackgroundJob.Enqueue<CheckPriceJobs>(p => p.Execute(null));
-            //RecurringJob.AddOrUpdate<CheckPriceJobs>(p => p.Execute(null), "0 6 * * *"); // Daily at 6 AM
+            RecurringJob.AddOrUpdate<CheckPriceJobs>(p => p.Execute(null), "0 6 * * *"); // Daily at 6 AM
         }
 
     }
