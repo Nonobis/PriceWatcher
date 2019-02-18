@@ -3,7 +3,6 @@ using Hangfire.Console;
 using Hangfire.Dashboard;
 using Hangfire.MemoryStorage;
 using Microsoft.Owin;
-using Microsoft.Owin.Cors;
 using Owin;
 using System;
 
@@ -23,9 +22,6 @@ namespace PriceWatcher
         /// <param name="app">The application.</param>
         public void Configuration(IAppBuilder app)
         {
-            // This must happen FIRST otherwise CORS will not work.
-            app.UseCors(CorsOptions.AllowAll);
-
             GlobalConfiguration.Configuration.UseColouredConsoleLogProvider();
             GlobalConfiguration.Configuration.UseConsole();
             GlobalConfiguration.Configuration.UseMemoryStorage();

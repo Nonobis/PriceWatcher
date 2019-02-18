@@ -14,7 +14,7 @@ namespace PriceWatcher.Jobs
 {
     public class SendMailJob
     {
-        private static readonly LogWriter Log = HostLogger.Get(typeof(CheckPriceJobs));
+        private static readonly LogWriter Log = HostLogger.Get(typeof(SendMailJob));
 
         /// <summary>
         /// The context
