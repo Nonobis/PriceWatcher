@@ -5,14 +5,13 @@ using PriceWatcher.Models;
 using SimpleHelper;
 using System;
 using Topshelf.Logging;
-using Topshelf.Squirrel.Updater.Interfaces;
 
 namespace PriceWatcher
 {
     /// <summary>
     /// Class ServiceHosted.
     /// </summary>
-    public class ServiceHosted : ISelfUpdatableService
+    public class ServiceHosted
     {
         /// <summary>
         /// Logger

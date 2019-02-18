@@ -1,6 +1,5 @@
 ﻿using log4net.Config;
 using SimpleHelper;
-using Squirrel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Topshelf;
 using Topshelf.Logging;
-using Topshelf.Squirrel.Updater;
-using Topshelf.Squirrel.Updater.Interfaces;
 
 namespace PriceWatcher
 {
@@ -29,44 +26,7 @@ namespace PriceWatcher
                 // Add the event handler for handling unhandled  exceptions to the event.
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-                // Start Service Updater
-                IUpdater selfupdater = null;
-                ServiceHosted service = new ServiceHosted();
-
-                try
-                {
-                    Log.Info("Updater Initialisation");
-                    IUpdateManager updateManager = new UpdateManager("https://repositories.itoo.me", AssemblyHelper.AssemblyTitle);
-                    selfupdater = new RepeatedTimeUpdater(updateManager).SetCheckUpdatePeriod(TimeSpan.FromMinutes(30));
-                    selfupdater.Start();
-                }
-                catch (Exception exx)
-                {
-                    Log.WarnFormat("'{0}' is not installed via Squirrel. Install program first.", AssemblyHelper.AssemblyTitle);
-                    Log.Warn(exx);
-                }
-
-                // Start TopShelf 
-                var x = new SquirreledHost(service, AssemblyHelper.CurrentAssembly, selfupdater, true, RunAS.LocalSystem);
-
-                // If RunAS.RunSpecificUser set login / password
-                //x.SetCredentials("", "");
-
-                x.ConfigureAndRun(HostConfig =>
-                {
-                    HostConfig.Service<ServiceHosted>(s =>
-                    {
-                        s.ConstructUsing(name => new ServiceHosted());
-                        s.WhenStarted(tc => tc.Start());
-                        s.WhenStopped(tc => tc.Stop());
-                        s.WhenPaused(tc => { });
-                        s.WhenContinued(tc => { });
-                    });
-                    HostConfig.EnableServiceRecovery(rc => rc.RestartService(1));
-                    HostConfig.EnableSessionChanged();
-                    HostConfig.UseLog4Net();
-                    HostConfig.StartAutomatically();
-                });
+                ConfigureService.Configure();
             }
             catch (Exception ex)
             {
