@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CastoramaPriceWatcher", "CastoramaPriceWatcher\CastoramaPriceWatcher.csproj", "{E0619FB3-B30B-41A3-8C31-C597079A5CD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceWatcher", "PriceWatcher\PriceWatcher.csproj", "{E0619FB3-B30B-41A3-8C31-C597079A5CD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
