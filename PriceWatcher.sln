@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceWatcher", "PriceWatcher\PriceWatcher.csproj", "{E0619FB3-B30B-41A3-8C31-C597079A5CD4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceWatcher.Core", "PriceWatcher.Core\PriceWatcher.Core.csproj", "{D18400F3-EC84-4B0E-9961-FE5708D0FAAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E0619FB3-B30B-41A3-8C31-C597079A5CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0619FB3-B30B-41A3-8C31-C597079A5CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0619FB3-B30B-41A3-8C31-C597079A5CD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D18400F3-EC84-4B0E-9961-FE5708D0FAAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D18400F3-EC84-4B0E-9961-FE5708D0FAAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D18400F3-EC84-4B0E-9961-FE5708D0FAAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D18400F3-EC84-4B0E-9961-FE5708D0FAAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
