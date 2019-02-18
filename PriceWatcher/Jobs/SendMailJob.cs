@@ -8,11 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Topshelf.Logging;
 
 namespace PriceWatcher.Jobs
 {
     public class SendMailJob
     {
+        private static readonly LogWriter Log = HostLogger.Get(typeof(CheckPriceJobs));
+
         /// <summary>
         /// The context
         /// </summary>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Topshelf;
+using Topshelf.Logging;
 using Topshelf.Squirrel.Updater;
 using Topshelf.Squirrel.Updater.Interfaces;
 
@@ -47,6 +48,7 @@ namespace PriceWatcher
                 });
                 HostConfig.EnableServiceRecovery(rc => rc.RestartService(1));
                 HostConfig.EnableSessionChanged();
+                HostConfig.UseLog4Net();
                 HostConfig.StartAutomatically();
             });
         }

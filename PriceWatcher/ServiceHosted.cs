@@ -4,6 +4,7 @@ using PriceWatcher.Jobs;
 using PriceWatcher.Models;
 using SimpleHelper;
 using System;
+using Topshelf.Logging;
 using Topshelf.Squirrel.Updater.Interfaces;
 
 namespace PriceWatcher
@@ -13,6 +14,11 @@ namespace PriceWatcher
     /// </summary>
     public class ServiceHosted : ISelfUpdatableService
     {
+        /// <summary>
+        /// Logger
+        /// </summary>
+        private static readonly LogWriter Log = HostLogger.Get(typeof(ServiceHosted));
+
         /// <summary>
         /// HangFire EndPoint
         /// </summary>

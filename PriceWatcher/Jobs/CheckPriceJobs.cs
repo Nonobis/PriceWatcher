@@ -6,11 +6,14 @@ using ScrapySharp.Network;
 using System;
 using System.Globalization;
 using System.Linq;
+using Topshelf.Logging;
 
 namespace PriceWatcher.Jobs
 {
     public class CheckPriceJobs
     {
+        private static readonly LogWriter Log = HostLogger.Get(typeof(CheckPriceJobs));
+
         /// <summary>
         /// The context
         /// </summary>
