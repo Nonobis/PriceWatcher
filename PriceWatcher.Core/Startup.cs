@@ -189,7 +189,6 @@ namespace PriceWatcher.Core
             services.AddMvc();
 
             services.AddOptions();
-            services.Configure<EnvironmentConfig>(Configuration);
 
             // Load AppSettings
             AppSettings.Current = new AppSettings();

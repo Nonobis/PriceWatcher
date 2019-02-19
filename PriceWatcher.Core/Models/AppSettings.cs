@@ -8,6 +8,9 @@ using System.IO;
 
 namespace PriceWatcher.Core.Models
 {
+    /// <summary>
+    /// Class AppSettings.
+    /// </summary>
     public class AppSettings
     {
         /// <summary>
@@ -21,21 +24,13 @@ namespace PriceWatcher.Core.Models
         /// </summary>
         /// <value>The exceptionless settings.</value>
         public ExceptionlessSettings ExceptionlessSettings { get; set; }
-
-        private readonly EnvironmentConfig _configuration;
-
-
+               
         /// <summary>
         /// Initializes a new instance of the <see cref="AppSettings" /> class.
         /// </summary>
         public AppSettings()
         {
 
-        }
-
-        public AppSettings(IOptions<EnvironmentConfig> configuration)
-        {
-            _configuration = configuration.Value;
         }
 
         /// <summary>
