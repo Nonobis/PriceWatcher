@@ -16,12 +16,6 @@ namespace PriceWatcher.Core.Models
         public MailSettings MailSettings { get; set; }
 
         /// <summary>
-        /// Gets or sets the watchers settings.
-        /// </summary>
-        /// <value>The watchers settings.</value>
-        public List<WatcherSettings> WatchersSettings { get; set; }
-
-        /// <summary>
         /// Gets or sets the exceptionless settings.
         /// </summary>
         /// <value>The exceptionless settings.</value>
@@ -39,6 +33,7 @@ namespace PriceWatcher.Core.Models
         /// Gets or sets the current.
         /// </summary>
         /// <value>The current.</value>
+        [JsonIgnore]
         public static AppSettings Current { get; set; }
 
 

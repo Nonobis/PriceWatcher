@@ -194,6 +194,8 @@ namespace PriceWatcher.Core
             AppSettings.Current.HostingEnvironment = HostingEnvironment;
             services.AddSingleton(Configuration);
 
+            UserSettings.Load();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -203,7 +205,7 @@ namespace PriceWatcher.Core
 
             services.AddHangfire(x => x.UseStorage(new MemoryStorage()
             {
-                JobExpirationTimeout = TimeSpan.FromMinutes(2)
+                JobExpirationTimeout = TimeSpan.FromHours(1)
             }));
             
         }

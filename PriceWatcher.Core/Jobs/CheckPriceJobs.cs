@@ -41,7 +41,7 @@ namespace PriceWatcher.Jobs
 
         private void DoWork()
         {
-            AppSettings.Current.WatchersSettings.ForEach(async settings =>
+            UserSettings.Current.WatchersSettings.ForEach(async settings =>
             {
                 ScrapingBrowser browser = new ScrapingBrowser();
                 browser.AutoDetectCharsetEncoding = true;
@@ -61,6 +61,7 @@ namespace PriceWatcher.Jobs
                     settings.LastPrice = valuePrice;
                 }
             });
+            UserSettings.Save(true);
         }
     }
 }
