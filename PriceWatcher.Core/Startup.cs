@@ -189,11 +189,15 @@ namespace PriceWatcher.Core
             services.AddMvc();
 
             services.AddOptions();
+            services.Configure<EnvironmentConfig>(Configuration);
+
+            // Load AppSettings
             AppSettings.Current = new AppSettings();
             services.ConfigurePOCO(Configuration.GetSection("AppSettings"), () => AppSettings.Current);
             AppSettings.Current.HostingEnvironment = HostingEnvironment;
             services.AddSingleton(Configuration);
 
+            // Load UserSettings
             UserSettings.Load();
 
             services.AddSession(options =>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using PriceWatcher.Core.Models;
 using SimpleHelper.Core;
@@ -20,13 +21,21 @@ namespace PriceWatcher.Core.Models
         /// </summary>
         /// <value>The exceptionless settings.</value>
         public ExceptionlessSettings ExceptionlessSettings { get; set; }
-        
+
+        private readonly EnvironmentConfig _configuration;
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AppSettings" /> class.
         /// </summary>
         public AppSettings()
         {
 
+        }
+
+        public AppSettings(IOptions<EnvironmentConfig> configuration)
+        {
+            _configuration = configuration.Value;
         }
 
         /// <summary>
