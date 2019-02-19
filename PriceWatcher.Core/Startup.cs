@@ -192,6 +192,7 @@ namespace PriceWatcher.Core
 
             // Load AppSettings
             AppSettings.Current = new AppSettings();
+
             services.ConfigurePOCO(Configuration.GetSection("AppSettings"), () => AppSettings.Current);
             AppSettings.Current.HostingEnvironment = HostingEnvironment;
             services.AddSingleton(Configuration);
