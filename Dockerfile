@@ -1,5 +1,5 @@
 #build container
-FROM microsoft/dotnet:latest as build
+FROM microsoft/aspnetcore:latest as build
 WORKDIR /src
 COPY ["PriceWatcher.Core/PriceWatcher.Core.csproj", "PriceWatcher.Core/"]
 RUN dotnet restore "PriceWatcher.Core/PriceWatcher.Core.csproj"
