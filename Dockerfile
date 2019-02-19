@@ -4,7 +4,7 @@ EXPOSE 80
 
 FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
-COPY ["PriceWatcher.Core/PriceWatcher.Core.csproj", "PriceWatcher.Core/"]
+COPY ["PriceWatcher.Core.csproj", "PriceWatcher.Core/"]
 RUN dotnet restore "PriceWatcher.Core/PriceWatcher.Core.csproj"
 COPY . .
 WORKDIR "/src/PriceWatcher.Core"
