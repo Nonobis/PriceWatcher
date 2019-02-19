@@ -1,5 +1,5 @@
 # FROM instruction, which must be first, initializes a new build stage and sets the Base Image for the remaining instructions.
-FROM microsoft/aspnetcore-build:2.2 AS build-env
+FROM microsoft/aspnetcore-build:latest AS build-env
 
 # WORKDIR sets the working directory of any remaining RUN, CMD, ENTRYPOINT, COPY and ADD instruction.
 WORKDIR /app
