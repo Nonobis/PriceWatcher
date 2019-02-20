@@ -16,7 +16,7 @@
     },
     {
       "Name": "System Alarm SOMFY Home",
-      "Url": "https: //www.castorama.fr/systeme-d-alarme-somfy-home/3660849508616_CAFR.prd",
+      "Url": "https://www.castorama.fr/systeme-d-alarme-somfy-home/3660849508616_CAFR.prd",
       "CssSelector": ".pricing",
       "DataAttributes": "data-value",
       "LastPrice": "0"
