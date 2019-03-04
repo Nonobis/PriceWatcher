@@ -31,6 +31,8 @@ namespace PriceWatcher.Core.Models
 
         public string DataAttributes { get; set; }
 
+        public bool Enabled { get; set; }
+
         /// <summary>
         /// Gets or sets the last price.
         /// </summary>

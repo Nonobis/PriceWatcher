@@ -1,25 +1,36 @@
 {
   "WatchersSettings": [
     {
-      "Name": "Somfy RMS 1000",
+      "Name": "Somfy RMS 1000 (Castorama)",
       "Url": "https://www.castorama.fr/motorisation-volet-roulant-sans-fil-somfy-rms-1000/3660849006723_CAFR.prd",
       "CssSelector": ".pricing",
       "DataAttributes": "data-value",
-      "LastPrice": "0"
+      "LastPrice": "0",
+      "Enabled": true
     },
     {
-      "Name": "Somfy RMS 2000",
+      "Name": "Somfy RMS 2000 (Castorama)",
       "Url": "https://www.castorama.fr/motorisation-volet-roulant-sans-fil-somfy-rms-2000/3660849006730_CAFR.prd",
       "CssSelector": ".pricing",
       "DataAttributes": "data-value",
-      "LastPrice": "0"
+      "LastPrice": "0",
+      "Enabled": true
     },
     {
       "Name": "System Alarm SOMFY Home",
       "Url": "https://www.castorama.fr/systeme-d-alarme-somfy-home/3660849508616_CAFR.prd",
       "CssSelector": ".pricing",
       "DataAttributes": "data-value",
-      "LastPrice": "0"
-    }
+      "LastPrice": "0",
+      "Enabled": true
+    },
+    {
+      "Name": "Somfy RMS 1000 (Leroy Merlin)",
+      "Url": "https://www.leroymerlin.fr/v3/p/produits/motorisation-de-volets-roulants-connectes-sans-fil-somfy-rms-1000-10-n-m-e27483",
+      "CssSelector": ".price",
+      "DataAttributes": "data-cerberus",
+      "LastPrice": "0",
+      "Enabled": false
+    },
   ]
 }

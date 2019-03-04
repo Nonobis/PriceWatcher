@@ -76,7 +76,7 @@ namespace PriceWatcher.Core
         /// <param name="loggerFactory">The logger factory.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsEnvironment("development"))
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -110,9 +110,8 @@ namespace PriceWatcher.Core
 
             app.UseHttpsRedirection();
 
-            ConfigureExceptionless();
-            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            //loggerFactory.AddDebug();
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
             loggerFactory.AddLog4Net();
 
             // Hangifre
@@ -186,19 +185,24 @@ namespace PriceWatcher.Core
             });
 
             // Add framework services.
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddMvc();
 
             services.AddOptions();
 
             // Load AppSettings
             AppSettings.Current = new AppSettings();
+            services.AddSingleton(Configuration);
+            services.Configure<EnvironmentConfiguration>(Configuration);
 
             services.ConfigurePOCO(Configuration.GetSection("AppSettings"), () => AppSettings.Current);
             AppSettings.Current.HostingEnvironment = HostingEnvironment;
-            services.AddSingleton(Configuration);
 
             // Load UserSettings
             UserSettings.Load();
+
+            // Exceptionless
+            ConfigureExceptionless();
 
             services.AddSession(options =>
             {

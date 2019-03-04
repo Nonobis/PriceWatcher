@@ -13,6 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Dockerfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\Logs\" />
   </ItemGroup>
 
@@ -62,9 +68,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="appsettings.docker.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="appsettings.Development .json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -78,5 +81,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties __JSONSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using Hangfire.Server;
+using log4net;
 using PriceWatcher.Core.Models;
 using ScrapySharp.Extensions;
 using ScrapySharp.Network;
@@ -21,6 +22,10 @@ namespace PriceWatcher.Jobs
         /// </summary>
         static readonly object Lock = new object();
 
+        /// <summary>
+        /// Logger Log4Net
+        /// </summary>
+        private static readonly ILog Log = LogManager.GetLogger(typeof(CheckPriceJobs));
 
         /// <summary>
         /// Executes the specified context.
@@ -41,27 +46,40 @@ namespace PriceWatcher.Jobs
 
         private void DoWork()
         {
-            UserSettings.Current.WatchersSettings.ForEach(async settings =>
+            try
             {
-                ScrapingBrowser browser = new ScrapingBrowser();
-                browser.AutoDetectCharsetEncoding = true;
-                browser.AllowAutoRedirect = true;
-
-                var res = await browser.NavigateToPageAsync(new Uri(settings.Url));
-                var sele = res.Html.CssSelect(settings.CssSelector);
-                var priceRead = sele.FirstOrDefault();
-                if (priceRead != null && priceRead.Attributes.Contains(settings.DataAttributes))
+                UserSettings.Current.WatchersSettings.ForEach(async settings =>
                 {
-                    double valuePrice = 0;
-                    double.TryParse(priceRead.Attributes[settings.DataAttributes].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out valuePrice);
-                    if (valuePrice < settings.LastPrice)
+                    if (settings.Enabled)
                     {
-                        BackgroundJob.Enqueue<SendMailJob>(p => p.Execute(null, settings, valuePrice));
+                        ScrapingBrowser browser = new ScrapingBrowser();
+                        browser.AutoDetectCharsetEncoding = true;
+                        browser.AllowAutoRedirect = true;
+
+                        var res = await browser.NavigateToPageAsync(new Uri(settings.Url));
+                        var sele = res.Html.CssSelect(settings.CssSelector);
+                        var priceRead = sele.FirstOrDefault();
+                        if (priceRead != null && priceRead.Attributes.Contains(settings.DataAttributes))
+                        {
+                            Log.Info($"Selector found for '{settings.Url}'");
+                            double valuePrice = 0;
+                            double.TryParse(priceRead.Attributes[settings.DataAttributes].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out valuePrice);
+                            Log.Info($"Price Found : {valuePrice} < {settings.LastPrice}");
+                            if (valuePrice < settings.LastPrice)
+                            {
+                                Log.Info($"New price detected '{valuePrice}' sending mail");
+                                BackgroundJob.Enqueue<SendMailJob>(p => p.Execute(null, settings, valuePrice));
+                            }
+                            settings.LastPrice = valuePrice;
+                        }
                     }
-                    settings.LastPrice = valuePrice;
-                }
-            });
-            UserSettings.Save(true);
+                });
+                UserSettings.Save(true);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+            }
         }
     }
 }
