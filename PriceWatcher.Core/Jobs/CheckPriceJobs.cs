@@ -48,14 +48,14 @@ namespace PriceWatcher.Jobs
         {
             try
             {
+                ScrapingBrowser browser = new ScrapingBrowser();
+                browser.AutoDetectCharsetEncoding = true;
+                browser.AllowAutoRedirect = true;
+
                 UserSettings.Current.WatchersSettings.ForEach(async settings =>
                 {
                     if (settings.Enabled)
                     {
-                        ScrapingBrowser browser = new ScrapingBrowser();
-                        browser.AutoDetectCharsetEncoding = true;
-                        browser.AllowAutoRedirect = true;
-
                         var res = await browser.NavigateToPageAsync(new Uri(settings.Url));
                         var sele = res.Html.CssSelect(settings.CssSelector);
                         var priceRead = sele.FirstOrDefault();
