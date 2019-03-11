@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Exceptionless;
+using Hangfire;
+using Hangfire.MemoryStorage;
+using log4net;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Hangfire;
-using Microsoft.AspNetCore.Rewrite;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Diagnostics;
-using System.Text.Encodings.Web;
-using Hangfire.MemoryStorage;
-using SimpleHelper.Core;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using PriceWatcher.Core.Filters;
 using PriceWatcher.Core.Models;
 using PriceWatcher.Jobs;
-using PriceWatcher.Core.Filters;
-using log4net;
-using Exceptionless;
 using SimpleExtension.Core;
-using PriceWatcher.Core.Tools;
+using SimpleHelper.Core;
+using System;
+using System.Collections.Generic;
+using System.Text.Encodings.Web;
 
 namespace PriceWatcher.Core
 {
@@ -110,8 +109,8 @@ namespace PriceWatcher.Core
 
             app.UseHttpsRedirection();
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            // Exceptionless
+            ConfigureExceptionless();
             loggerFactory.AddLog4Net();
 
             // Hangifre
@@ -123,7 +122,7 @@ namespace PriceWatcher.Core
             app.UseHangfireServer(new BackgroundJobServerOptions
             {
                 Queues = new[] { "critical", "high", "default", "low", "idle" },
-                WorkerCount = 1,
+                WorkerCount = Environment.ProcessorCount * 4,
                 HeartbeatInterval = new TimeSpan(0, 1, 0),
                 ServerCheckInterval = new TimeSpan(0, 1, 0),
                 SchedulePollingInterval = new TimeSpan(0, 1, 0)
@@ -189,30 +188,34 @@ namespace PriceWatcher.Core
 
             // Load AppSettings
             services.AddOptions();
+            
             AppSettings.Current = new AppSettings();
             services.ConfigurePOCO(Configuration.GetSection("AppSettings"), () => AppSettings.Current);
-            services.Configure<EnvironmentConfiguration>(Configuration);
             AppSettings.Current.HostingEnvironment = HostingEnvironment;
             services.AddSingleton(Configuration);
 
+            
             // Load UserSettings
             UserSettings.Load();
-
-            // Exceptionless
-            ConfigureExceptionless();
 
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.Name = $"_{AssemblyHelper.AssemblyTitle}Cookie";
             });
-            
 
-            services.AddHangfire(x => x.UseStorage(new MemoryStorage()
+            services.AddMvc().AddJsonOptions(options =>
             {
-                JobExpirationTimeout = TimeSpan.FromHours(1)
-            }));
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.Formatting = Formatting.Indented;
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             
+            services.AddHangfire(x => x.UseStorage(new MemoryStorage(new MemoryStorageOptions()
+            {
+                JobExpirationCheckInterval = TimeSpan.FromHours(1)
+            })));
+
         }
 
         /// <summary>
