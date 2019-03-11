@@ -2,6 +2,7 @@
 using Hangfire.Server;
 using log4net;
 using PriceWatcher.Core.Models;
+using PriceWatcher.Core.Tools;
 using ScrapySharp.Extensions;
 using ScrapySharp.Network;
 using System;
@@ -56,18 +57,19 @@ namespace PriceWatcher.Jobs
                 {
                     if (settings.Enabled)
                     {
+                        _context.WriteLog($"Check price for '{settings.Name}' at '{settings.Url}'");
                         var res = await browser.NavigateToPageAsync(new Uri(settings.Url));
                         var sele = res.Html.CssSelect(settings.CssSelector);
                         var priceRead = sele.FirstOrDefault();
                         if (priceRead != null && priceRead.Attributes.Contains(settings.DataAttributes))
                         {
-                            Log.Info($"Selector found for '{settings.Url}'");
+                            _context.WriteLog($"Selector found for '{settings.Url}'");
                             double valuePrice = 0;
                             double.TryParse(priceRead.Attributes[settings.DataAttributes].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out valuePrice);
-                            Log.Info($"Price Found : {valuePrice} < {settings.LastPrice}");
+                            _context.WriteLog($"Price Found : {valuePrice} < {settings.LastPrice}");
                             if (valuePrice < settings.LastPrice)
                             {
-                                Log.Info($"New price detected '{valuePrice}' sending mail");
+                                _context.WriteLog($"New price detected '{valuePrice}' sending mail");
                                 BackgroundJob.Enqueue<SendMailJob>(p => p.Execute(null, settings, valuePrice));
                             }
                             settings.LastPrice = valuePrice;
@@ -78,7 +80,7 @@ namespace PriceWatcher.Jobs
             }
             catch (Exception ex)
             {
-                Log.Error(ex);
+                _context.WriteError(ex);
             }
         }
     }
